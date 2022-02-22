@@ -4,7 +4,6 @@ let currentGuess = [];
 let nextLetter = 0;
 
 function initBoard() {
-    
     let board = document.getElementById("game-board");
 
     for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
@@ -25,18 +24,39 @@ function initBoard() {
 document.addEventListener("keyup", (e) => {
     console.log(e.key)
 
-    let pressedKey = String(e.key)
-    if (pressedKey === "Backspace") {
-        console.log("Backspace!")
-        if (nextLetter === 0) {
-            return
-        }
+    if (guessesRemaining === 0) {
+        return
+    }
 
+    let pressedKey = String(e.key)
+    if (pressedKey === "Backspace" && nextLetter !== 0) {
         let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
         let box = row.children[nextLetter - 1]
         box.textContent = ""
+        currentGuess.pop()
         nextLetter -= 1
         return
+    }
+
+    if (pressedKey === "Enter") {
+        let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
+        let guess = ''
+        for (const val of currentGuess) {
+            guess += val
+        }
+
+        if (guess.length != 5) {
+            console.log("Not enough letters!")
+            return
+        }
+
+
+        console.log(guess)
+        guessesRemaining -= 1;
+        currentGuess = [];
+        nextLetter = 0;
+        console.log(guessesRemaining + " guesses left")
+
     }
 
     let found = pressedKey.match(/[a-z]/g)
@@ -51,6 +71,7 @@ document.addEventListener("keyup", (e) => {
         let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
         let box = row.children[nextLetter]
         box.textContent = pressedKey
+        currentGuess.push(pressedKey)
         nextLetter += 1
     }
 })
