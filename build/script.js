@@ -21,18 +21,26 @@ function initBoard() {
     }
 }
 
+
 document.addEventListener("keyup", (e) => {
     console.log(e.key)
 
     let pressedKey = String(e.key)
     if (pressedKey === "Backspace") {
         console.log("Backspace!")
+        if (nextLetter === 0) {
+            return
+        }
+
+        let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
+        let box = row.children[nextLetter - 1]
+        box.textContent = ""
+        nextLetter -= 1
         return
     }
 
     let found = pressedKey.match(/[a-z]/g)
-
-    console.log(found, pressedKey)
+    // console.log(found, pressedKey)
     if (!found || found.length > 1) {
         return
     } else {
@@ -44,7 +52,6 @@ document.addEventListener("keyup", (e) => {
         let box = row.children[nextLetter]
         box.textContent = pressedKey
         nextLetter += 1
-
     }
 })
 
