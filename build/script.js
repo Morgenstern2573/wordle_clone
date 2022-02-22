@@ -1,5 +1,7 @@
-const NUMBER_OF_GUESSES = 6
-let guessesRemaining = NUMBER_OF_GUESSES
+const NUMBER_OF_GUESSES = 6;
+let guessesRemaining = NUMBER_OF_GUESSES;
+let currentGuess = [];
+let nextLetter = 0;
 
 function initBoard() {
     
@@ -27,7 +29,7 @@ document.addEventListener("keyup", (e) => {
         console.log("Backspace!")
         return
     }
-    
+
     let found = pressedKey.match(/[a-z]/g)
 
     console.log(found, pressedKey)
@@ -35,6 +37,14 @@ document.addEventListener("keyup", (e) => {
         return
     } else {
         console.log("single key!")
+        if (nextLetter === 5) {
+            return
+        }
+        let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
+        let box = row.children[nextLetter]
+        box.textContent = pressedKey
+        nextLetter += 1
+
     }
 })
 
