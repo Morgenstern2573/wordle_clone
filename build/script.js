@@ -64,11 +64,15 @@ document.addEventListener("keyup", (e) => {
             for (let i = 0; i < 5; i++) {
                 let box = row.children[i]
                 let test1 = rightGuessString.indexOf(currentGuess[i])
+                // is letter in the correct guess
                 if (test1 === -1) {
                     box.style.backgroundColor = 'grey'
                 } else {
-
+                    // now, letter is definitely in word
+                    // if letter index and right guess index are the same
+                    // letter is in the right position 
                     if (currentGuess[i] === rightGuess[i]) {
+                        // shade green 
                         box.style.backgroundColor = 'green'
                     } else {
                         // shade box yellow
