@@ -2,6 +2,7 @@ const NUMBER_OF_GUESSES = 6;
 let guessesRemaining = NUMBER_OF_GUESSES;
 let currentGuess = [];
 let nextLetter = 0;
+let rightGuess = "happy"
 
 function initBoard() {
     let board = document.getElementById("game-board");
@@ -40,22 +41,42 @@ document.addEventListener("keyup", (e) => {
 
     if (pressedKey === "Enter") {
         let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
-        let guess = ''
+        let guessString = ''
         for (const val of currentGuess) {
             guess += val
         }
 
-        if (guess.length != 5) {
+        if (guessString.length != 5) {
             console.log("Not enough letters!")
             return
         }
+        
+        console.log(guessString)
+
+        if (guessString === rightGuess) {
+            console.log("You guessed right!")
+            // exit game
+            return
+        } else {
+            
+            for (let i = 0; i < 5; i++) {
+                let test = rightGuess.indexOf(currentGuess[i])
+                if (test === -1) {
+                    // shade box grey
+                } else if (test === i) {
+                    // shade box green
+                } else {
+                    // shade box yellow
+                }
+            }
+
+            guessesRemaining -= 1;
+            currentGuess = [];
+            nextLetter = 0;
+            console.log(guessesRemaining + " guesses left")
+        }
 
 
-        console.log(guess)
-        guessesRemaining -= 1;
-        currentGuess = [];
-        nextLetter = 0;
-        console.log(guessesRemaining + " guesses left")
 
     }
 
@@ -68,6 +89,8 @@ document.addEventListener("keyup", (e) => {
         if (nextLetter === 5) {
             return
         }
+        pressedKey = pressedKey.toLowerCase()
+
         let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
         let box = row.children[nextLetter]
         box.textContent = pressedKey
