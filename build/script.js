@@ -2,7 +2,7 @@ const NUMBER_OF_GUESSES = 6;
 let guessesRemaining = NUMBER_OF_GUESSES;
 let currentGuess = [];
 let nextLetter = 0;
-let rightGuess = "happy"
+let rightGuessString = "happy"
 
 function initBoard() {
     let board = document.getElementById("game-board");
@@ -42,8 +42,10 @@ document.addEventListener("keyup", (e) => {
     if (pressedKey === "Enter") {
         let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
         let guessString = ''
+        let rightGuess = Array.from(rightGuessString)
+
         for (const val of currentGuess) {
-            guess += val
+            guessString += val
         }
 
         if (guessString.length != 5) {
@@ -58,15 +60,20 @@ document.addEventListener("keyup", (e) => {
             // exit game
             return
         } else {
-            
+
             for (let i = 0; i < 5; i++) {
-                let test = rightGuess.indexOf(currentGuess[i])
-                if (test === -1) {
-                    // shade box grey
-                } else if (test === i) {
-                    // shade box green
+                let box = row.children[i]
+                let test1 = rightGuessString.indexOf(currentGuess[i])
+                if (test1 === -1) {
+                    box.style.backgroundColor = 'grey'
                 } else {
-                    // shade box yellow
+
+                    if (currentGuess[i] === rightGuess[i]) {
+                        box.style.backgroundColor = 'green'
+                    } else {
+                        // shade box yellow
+                        box.style.backgroundColor = 'yellow'
+                    }
                 }
             }
 
