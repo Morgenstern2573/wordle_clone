@@ -16,6 +16,23 @@
   display: flex;
 }
 
+#keyboard-cont {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.second-row {
+  margin: 0.5rem 0;
+}
+
+.keyboard-button {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
 #game-board {
   display: flex;
   align-items: center;
