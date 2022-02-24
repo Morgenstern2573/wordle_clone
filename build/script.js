@@ -52,19 +52,19 @@ document.addEventListener("keyup", (e) => {
         }
 
         if (guessString.length != 5) {
-            console.log("Not enough letters!")
+            toastr.error("Not enough letters!")
             return
         }
 
         if (!WORDS.includes(guessString)) {
-            console.log("Word not in list!")
+            toastr.error("Word not in list!")
             return
         }
         
         console.log(guessString)
 
         if (guessString === rightGuessString) {
-            console.log("You guessed right!")
+            toastr.success("You guessed right! Game over!")
             // color all squares green
             for (let i = 0; i < 5; i++) {
                 row.children[i].style.backgroundColor = 'green'
@@ -98,6 +98,10 @@ document.addEventListener("keyup", (e) => {
             currentGuess = [];
             nextLetter = 0;
             console.log(guessesRemaining + " guesses left")
+
+            if (guessesRemaining === 0) {
+                toastr.error("You've run out of guesses! Game over!")
+            }
         }
 
 
