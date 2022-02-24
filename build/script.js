@@ -55,12 +55,22 @@ document.addEventListener("keyup", (e) => {
             console.log("Not enough letters!")
             return
         }
+
+        if (!WORDS.includes(guessString)) {
+            console.log("Word not in list!")
+            return
+        }
         
         console.log(guessString)
 
-        if (guessString === rightGuess) {
+        if (guessString === rightGuessString) {
             console.log("You guessed right!")
+            // color all squares green
+            for (let i = 0; i < 5; i++) {
+                row.children[i].style.backgroundColor = 'green'
+            }
             // exit game
+            guessesRemaining = 0
             return
         } else {
 
