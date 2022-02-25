@@ -54,7 +54,6 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
   });
 
 document.addEventListener("keyup", (e) => {
-    console.log(e.key)
 
     if (guessesRemaining === 0) {
         return
@@ -91,44 +90,51 @@ document.addEventListener("keyup", (e) => {
         }
         
         console.log(guessString)
+        console.log(currentGuess)
+        for (let i = 0; i < 5; i++) {
+            let letterColor = ''
+            let box = row.children[i]
+            let letter = currentGuess[i]
+            
+            let test1 = rightGuessString.indexOf(currentGuess[i])
+            // is letter in the correct guess
+            if (test1 === -1) {
+                letterColor = 'grey'
+            } else {
+                // now, letter is definitely in word
+                // if letter index and right guess index are the same
+                // letter is in the right position 
+                if (currentGuess[i] === rightGuess[i]) {
+                    // shade green 
+                    letterColor = 'green'
+                } else {
+                    // shade box yellow
+                    letterColor = 'yellow'
+                }
+            }
+
+            console.log(letterColor)
+            let delay = 250 * i
+            setTimeout(()=> {
+                console.log(box, letterColor)
+                //flip box
+                animateCSS(box, 'flipInX')
+                //shade box
+                box.style.backgroundColor = letterColor
+                shadeKeyBoard(letter, letterColor)
+            }, delay)
+        }
 
         if (guessString === rightGuessString) {
             toastr.success("You guessed right! Game over!")
             // color all squares green
-            for (let i = 0; i < 5; i++) {
-                row.children[i].style.backgroundColor = 'green'
-            }
+            // for (let i = 0; i < 5; i++) {
+            //     row.children[i].style.backgroundColor = 'green'
+            // }
             // exit game
             guessesRemaining = 0
             return
         } else {
-            let letterColor = ''
-            for (let i = 0; i < 5; i++) {
-                let box = row.children[i]
-                let test1 = rightGuessString.indexOf(currentGuess[i])
-                // is letter in the correct guess
-                if (test1 === -1) {
-                    letterColor = 'grey'
-                } else {
-                    // now, letter is definitely in word
-                    // if letter index and right guess index are the same
-                    // letter is in the right position 
-                    if (currentGuess[i] === rightGuess[i]) {
-                        // shade green 
-                        letterColor = 'green'
-                    } else {
-                        // shade box yellow
-                        letterColor = 'yellow'
-                    }
-                }
-                
-                //shade box
-                box.style.backgroundColor = letterColor
-                shadeKeyBoard(currentGuess[i], letterColor)
-            }
-
-
-
             guessesRemaining -= 1;
             currentGuess = [];
             nextLetter = 0;
@@ -138,16 +144,12 @@ document.addEventListener("keyup", (e) => {
                 toastr.error("You've run out of guesses! Game over!")
             }
         }
-
-
-
     }
 
     let found = pressedKey.match(/[a-z]/g)
     if (!found || found.length > 1) {
         return
     } else {
-        console.log("single key!")
         if (nextLetter === 5) {
             return
         }
