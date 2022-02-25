@@ -5,6 +5,7 @@ let guessesRemaining = NUMBER_OF_GUESSES;
 let currentGuess = [];
 let nextLetter = 0;
 let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
+
 console.log(rightGuessString)
 
 function initBoard() {
@@ -88,13 +89,14 @@ document.addEventListener("keyup", (e) => {
             toastr.error("Word not in list!")
             return
         }
+
         
         for (let i = 0; i < 5; i++) {
             let letterColor = ''
             let box = row.children[i]
             let letter = currentGuess[i]
             
-            let test1 = rightGuessString.indexOf(currentGuess[i])
+            let test1 = rightGuess.indexOf(currentGuess[i])
             // is letter in the correct guess
             if (test1 === -1) {
                 letterColor = 'grey'
@@ -109,6 +111,8 @@ document.addEventListener("keyup", (e) => {
                     // shade box yellow
                     letterColor = 'yellow'
                 }
+
+                rightGuess[test1] = "#"
             }
 
             let delay = 250 * i
