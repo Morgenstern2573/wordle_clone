@@ -89,8 +89,6 @@ document.addEventListener("keyup", (e) => {
             return
         }
         
-        console.log(guessString)
-        console.log(currentGuess)
         for (let i = 0; i < 5; i++) {
             let letterColor = ''
             let box = row.children[i]
@@ -113,10 +111,8 @@ document.addEventListener("keyup", (e) => {
                 }
             }
 
-            console.log(letterColor)
             let delay = 250 * i
             setTimeout(()=> {
-                console.log(box, letterColor)
                 //flip box
                 animateCSS(box, 'flipInX')
                 //shade box
