@@ -24,6 +24,14 @@ function initBoard() {
     }
 }
 
+function shadeKeyBoard(letter, color) {
+    for (const elem of document.getElementsByClassName("keyboard-button")) {
+        if (elem.textContent === letter) {
+            elem.style.backgroundColor = color
+            break
+        }
+    }
+}
 
 document.addEventListener("keyup", (e) => {
     console.log(e.key)
@@ -73,26 +81,32 @@ document.addEventListener("keyup", (e) => {
             guessesRemaining = 0
             return
         } else {
-
+            let letterColor = ''
             for (let i = 0; i < 5; i++) {
                 let box = row.children[i]
                 let test1 = rightGuessString.indexOf(currentGuess[i])
                 // is letter in the correct guess
                 if (test1 === -1) {
-                    box.style.backgroundColor = 'grey'
+                    letterColor = 'grey'
                 } else {
                     // now, letter is definitely in word
                     // if letter index and right guess index are the same
                     // letter is in the right position 
                     if (currentGuess[i] === rightGuess[i]) {
                         // shade green 
-                        box.style.backgroundColor = 'green'
+                        letterColor = 'green'
                     } else {
                         // shade box yellow
-                        box.style.backgroundColor = 'yellow'
+                        letterColor = 'yellow'
                     }
                 }
+                
+                //shade box
+                box.style.backgroundColor = letterColor
+                shadeKeyBoard(currentGuess[i], letterColor)
             }
+
+
 
             guessesRemaining -= 1;
             currentGuess = [];
