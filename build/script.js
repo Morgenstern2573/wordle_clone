@@ -127,11 +127,6 @@ document.addEventListener("keyup", (e) => {
 
         if (guessString === rightGuessString) {
             toastr.success("You guessed right! Game over!")
-            // color all squares green
-            // for (let i = 0; i < 5; i++) {
-            //     row.children[i].style.backgroundColor = 'green'
-            // }
-            // exit game
             guessesRemaining = 0
             return
         } else {
