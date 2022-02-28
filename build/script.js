@@ -105,7 +105,6 @@ function checkGuess () {
         guessesRemaining -= 1;
         currentGuess = [];
         nextLetter = 0;
-        console.log(guessesRemaining + " guesses left")
 
         if (guessesRemaining === 0) {
             toastr.error("You've run out of guesses! Game over!")
