@@ -43,6 +43,92 @@ function deleteLetter () {
     nextLetter -= 1
 }
 
+function checkGuess () {
+    let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
+    let guessString = ''
+    let rightGuess = Array.from(rightGuessString)
+
+    for (const val of currentGuess) {
+        guessString += val
+    }
+
+    if (guessString.length != 5) {
+        toastr.error("Not enough letters!")
+        return
+    }
+
+    if (!WORDS.includes(guessString)) {
+        toastr.error("Word not in list!")
+        return
+    }
+
+    
+    for (let i = 0; i < 5; i++) {
+        let letterColor = ''
+        let box = row.children[i]
+        let letter = currentGuess[i]
+        
+        let test1 = rightGuess.indexOf(currentGuess[i])
+        // is letter in the correct guess
+        if (test1 === -1) {
+            letterColor = 'grey'
+        } else {
+            // now, letter is definitely in word
+            // if letter index and right guess index are the same
+            // letter is in the right position 
+            if (currentGuess[i] === rightGuess[i]) {
+                // shade green 
+                letterColor = 'green'
+            } else {
+                // shade box yellow
+                letterColor = 'yellow'
+            }
+
+            rightGuess[test1] = "#"
+        }
+
+        let delay = 250 * i
+        setTimeout(()=> {
+            //flip box
+            animateCSS(box, 'flipInX')
+            //shade box
+            box.style.backgroundColor = letterColor
+            shadeKeyBoard(letter, letterColor)
+        }, delay)
+    }
+
+    if (guessString === rightGuessString) {
+        toastr.success("You guessed right! Game over!")
+        guessesRemaining = 0
+        return
+    } else {
+        guessesRemaining -= 1;
+        currentGuess = [];
+        nextLetter = 0;
+        console.log(guessesRemaining + " guesses left")
+
+        if (guessesRemaining === 0) {
+            toastr.error("You've run out of guesses! Game over!")
+            toastr.info(`The right word was: "${rightGuessString}"`)
+        }
+    }
+}
+
+function insertLetter (pressedKey) {
+    if (nextLetter === 5) {
+        return
+    }
+    pressedKey = pressedKey.toLowerCase()
+
+    let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
+    let box = row.children[nextLetter]
+    animateCSS(box, "pulse")
+    box.textContent = pressedKey
+    box.classList.add("filled-box")
+    currentGuess.push(pressedKey)
+    nextLetter += 1
+}
+
 const animateCSS = (element, animation, prefix = 'animate__') =>
   // We create a Promise and return it
   new Promise((resolve, reject) => {
@@ -76,92 +162,15 @@ document.addEventListener("keyup", (e) => {
     }
 
     if (pressedKey === "Enter") {
-        let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
-        let guessString = ''
-        let rightGuess = Array.from(rightGuessString)
-
-        for (const val of currentGuess) {
-            guessString += val
-        }
-
-        if (guessString.length != 5) {
-            toastr.error("Not enough letters!")
-            return
-        }
-
-        if (!WORDS.includes(guessString)) {
-            toastr.error("Word not in list!")
-            return
-        }
-
-        
-        for (let i = 0; i < 5; i++) {
-            let letterColor = ''
-            let box = row.children[i]
-            let letter = currentGuess[i]
-            
-            let test1 = rightGuess.indexOf(currentGuess[i])
-            // is letter in the correct guess
-            if (test1 === -1) {
-                letterColor = 'grey'
-            } else {
-                // now, letter is definitely in word
-                // if letter index and right guess index are the same
-                // letter is in the right position 
-                if (currentGuess[i] === rightGuess[i]) {
-                    // shade green 
-                    letterColor = 'green'
-                } else {
-                    // shade box yellow
-                    letterColor = 'yellow'
-                }
-
-                rightGuess[test1] = "#"
-            }
-
-            let delay = 250 * i
-            setTimeout(()=> {
-                //flip box
-                animateCSS(box, 'flipInX')
-                //shade box
-                box.style.backgroundColor = letterColor
-                shadeKeyBoard(letter, letterColor)
-            }, delay)
-        }
-
-        if (guessString === rightGuessString) {
-            toastr.success("You guessed right! Game over!")
-            guessesRemaining = 0
-            return
-        } else {
-            guessesRemaining -= 1;
-            currentGuess = [];
-            nextLetter = 0;
-            console.log(guessesRemaining + " guesses left")
-
-            if (guessesRemaining === 0) {
-                toastr.error("You've run out of guesses! Game over!")
-                toastr.info(`The right word was: "${rightGuessString}"`)
-            }
-        }
+        checkGuess()
+        return
     }
 
     let found = pressedKey.match(/[a-z]/gi)
     if (!found || found.length > 1) {
         return
     } else {
-        if (nextLetter === 5) {
-            return
-        }
-        pressedKey = pressedKey.toLowerCase()
-
-        let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
-        let box = row.children[nextLetter]
-        animateCSS(box, "pulse")
-        box.textContent = pressedKey
-        box.classList.add("filled-box")
-        currentGuess.push(pressedKey)
-        nextLetter += 1
+        insertLetter(pressedKey)
     }
 })
 
