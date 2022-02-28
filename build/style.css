@@ -2,6 +2,12 @@ h1 {
  text-align: center;
 }
 
+#game-board {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .letter-box {
   border: 2px solid gray;
   border-radius: 3px;
@@ -46,10 +52,4 @@ h1 {
   margin: 0 2px;
   cursor: pointer;
   text-transform: uppercase;
-}
-
-#game-board {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 }
