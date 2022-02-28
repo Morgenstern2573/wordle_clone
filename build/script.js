@@ -34,6 +34,15 @@ function shadeKeyBoard(letter, color) {
     }
 }
 
+function deleteLetter () {
+    let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
+    let box = row.children[nextLetter - 1]
+    box.textContent = ""
+    box.classList.remove("filled-box")
+    currentGuess.pop()
+    nextLetter -= 1
+}
+
 const animateCSS = (element, animation, prefix = 'animate__') =>
   // We create a Promise and return it
   new Promise((resolve, reject) => {
@@ -52,7 +61,7 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
     }
 
     node.addEventListener('animationend', handleAnimationEnd, {once: true});
-  });
+});
 
 document.addEventListener("keyup", (e) => {
 
@@ -62,12 +71,7 @@ document.addEventListener("keyup", (e) => {
 
     let pressedKey = String(e.key)
     if (pressedKey === "Backspace" && nextLetter !== 0) {
-        let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
-        let box = row.children[nextLetter - 1]
-        box.textContent = ""
-        box.classList.remove("filled-box")
-        currentGuess.pop()
-        nextLetter -= 1
+        deleteLetter()
         return
     }
 
