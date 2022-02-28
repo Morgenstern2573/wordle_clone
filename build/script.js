@@ -174,8 +174,6 @@ document.addEventListener("keyup", (e) => {
     }
 })
 
-
-
 document.getElementById("keyboard-cont").addEventListener("click", (e) => {
     const target = e.target
     
