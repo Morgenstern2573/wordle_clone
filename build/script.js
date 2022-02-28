@@ -68,9 +68,9 @@ function checkGuess () {
         let box = row.children[i]
         let letter = currentGuess[i]
         
-        let test1 = rightGuess.indexOf(currentGuess[i])
+        let letterPosition = rightGuess.indexOf(currentGuess[i])
         // is letter in the correct guess
-        if (test1 === -1) {
+        if (letterPosition === -1) {
             letterColor = 'grey'
         } else {
             // now, letter is definitely in word
@@ -84,7 +84,7 @@ function checkGuess () {
                 letterColor = 'yellow'
             }
 
-            rightGuess[test1] = "#"
+            rightGuess[letterPosition] = "#"
         }
 
         let delay = 250 * i
