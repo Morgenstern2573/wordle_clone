@@ -90,7 +90,7 @@ function checkGuess() {
     for (let j = 0; j < 5; j++) {
       if (rightGuess[j] == currentGuess[i]) {
         letterColor[i] = "yellow";
-        rightGuess[i] = "#";
+        rightGuess[j] = "#";
       }
     }
   }
