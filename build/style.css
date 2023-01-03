@@ -53,3 +53,7 @@ h1 {
   cursor: pointer;
   text-transform: uppercase;
 }
+
+.keyboard-button:disabled {
+  cursor: auto;
+}

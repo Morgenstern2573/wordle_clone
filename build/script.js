@@ -43,6 +43,11 @@ function shadeKeyBoard(letter, color) {
   }
 }
 
+function disableButtons () {
+  const keyButtons = document.querySelectorAll('#keyboard-cont button');
+  Array.from(keyButtons).forEach((element)=>element.disabled = true);
+}
+
 function deleteLetter() {
   let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining];
   let box = row.children[nextLetter - 1];
@@ -109,6 +114,7 @@ function checkGuess() {
 
   if (guessString === rightGuessString) {
     toastr.success("You guessed right! Game over!");
+    disableButtons()
     guessesRemaining = 0;
     return;
   } else {
