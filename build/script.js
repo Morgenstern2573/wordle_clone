@@ -44,8 +44,8 @@ function shadeKeyBoard(letter, color) {
 }
 
 function disableButtons () {
-  const keyButtons = document.querySelectorAll('#keyboard-cont button')
-  Array.from(keyButtons).forEach((element)=>element.disabled = true)
+  const keyButtons = document.querySelectorAll('#keyboard-cont button');
+  Array.from(keyButtons).forEach((element)=>element.disabled = true);
 }
 
 function deleteLetter() {
