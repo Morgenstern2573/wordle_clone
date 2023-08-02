@@ -4,7 +4,6 @@ const NUMBER_OF_GUESSES = 6;
 const WORD_LENGTH = 5;
 let guessesRemaining = NUMBER_OF_GUESSES;
 let currentGuess = [];
-let nextLetter = 0;
 
 let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)];
 
@@ -46,12 +45,11 @@ function shadeKeyBoard(letter, color) {
 }
 
 function deleteLetter() {
-  let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining];
-  let box = row.children[nextLetter - 1];
+  const row = document.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - guessesRemaining];
+  const box = row.children[currentGuess.length - 1];
   box.textContent = "";
   box.classList.remove("filled-box");
   currentGuess.pop();
-  nextLetter -= 1;
 }
 
 function checkGuess() {
@@ -116,7 +114,6 @@ function checkGuess() {
   } else {
     guessesRemaining -= 1;
     currentGuess = [];
-    nextLetter = 0;
 
     if (guessesRemaining === 0) {
       toastr.error("You've run out of guesses! Game over!");
@@ -126,18 +123,18 @@ function checkGuess() {
 }
 
 function insertLetter(pressedKey) {
-  if (nextLetter === WORD_LENGTH) {
+  if (currentGuess.length === WORD_LENGTH) {
     return;
   }
+
   pressedKey = pressedKey.toLowerCase();
 
-  let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining];
-  let box = row.children[nextLetter];
+  const row = document.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - guessesRemaining];
+  const box = row.children[currentGuess.length];
   animateCSS(box, "pulse");
   box.textContent = pressedKey;
   box.classList.add("filled-box");
   currentGuess.push(pressedKey);
-  nextLetter += 1;
 }
 
 const animateCSS = (element, animation, prefix = "animate__") =>
@@ -166,7 +163,7 @@ document.addEventListener("keyup", (e) => {
   }
 
   let pressedKey = String(e.key);
-  if (pressedKey === "Backspace" && nextLetter !== 0) {
+  if (pressedKey === "Backspace" && currentGuess.length !== 0) {
     deleteLetter();
     return;
   }
